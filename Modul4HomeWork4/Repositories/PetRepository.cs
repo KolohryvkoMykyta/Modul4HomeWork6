@@ -79,5 +79,23 @@ namespace Modul4HomeWork4.Repositories
                 await _dbContext.SaveChangesAsync();
             }
         }
+        public async Task<IReadOnlyList<SpecialEntity>> SpecialRequestAsync()
+        {
+            return await _dbContext.Pets.Include(p => p.Breed)
+                .Include(p => p.Category)
+                .Include(p => p.Location)
+                .Where(p => p.Age > 3 && p.Location.Location_Name == "Ukraine")
+                .Select(p => new
+                {
+                    CategoryName = p.Category.Category_Name,
+                    BreedName = p.Breed.Breed_Name
+                })
+                .GroupBy(p => p.CategoryName)
+                .Select(p => new SpecialEntity()
+                {
+                    CategoryName = p.Key,
+                    CountBreed = p.Distinct().Count()
+                }).ToListAsync();
+        }
     }
 }

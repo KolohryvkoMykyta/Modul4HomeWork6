@@ -85,5 +85,15 @@ namespace Modul4HomeWork4.Services
                 _loggerService.LogInformation($"Deleted pet id: {id}");
             });
         }
+
+        public async Task<IReadOnlyList<SpecialModel>> SpecialRequestAsync()
+        {
+            return (await _petRepository.SpecialRequestAsync())
+                .Select(item => new SpecialModel()
+                {
+                    CategoryName = item.CategoryName,
+                    CountBreed = item.CountBreed
+                }).ToList();
+        }
     }
 }

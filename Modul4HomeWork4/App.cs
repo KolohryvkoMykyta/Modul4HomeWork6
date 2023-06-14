@@ -23,30 +23,32 @@ namespace Modul4HomeWork4
         }
         public async Task StartAsync()
         {
-            var categoryid = await _categoryService.AddCategoryAsync("Category");
+            var categoryDogId = await _categoryService.AddCategoryAsync("Dog");
+            var categoryCatId = await _categoryService.AddCategoryAsync("Cat");
+            var categoryBirdId = await _categoryService.AddCategoryAsync("Bird");
 
-            var breedId = await _breedService.AddBreedAsync("Breed", categoryid);
-
-            var locationId = await _locationService.AddLocationAsync("Location");
-           
-            var petId = await _petService.AddPetAsync("Pet", 3f, categoryid, breedId, locationId, "no", "no");
-
-            var pet = await _petService.GetPetAsync(petId);
-
-            await _petService.UpdatePetAsync(petId, "Update", 3, categoryid, breedId, locationId, "no", "no");
-
-            await _petService.DeletePetAsync(petId);
-
+            var locationIdUkraine = await _locationService.AddLocationAsync("Ukraine");
+            var locationIdPoland = await _locationService.AddLocationAsync("Poland");
             
+            var breedIdShepherdDog = await _breedService.AddBreedAsync("Shepherd dog", categoryDogId);
+            var breedIdPoodle = await _breedService.AddBreedAsync("Poodle", categoryDogId);
+            var breedIdBengalCat = await _breedService.AddBreedAsync("Bengal cat", categoryCatId);
+            var breedIdBritishСat = await _breedService.AddBreedAsync("British cat", categoryCatId);
+            var breedIdParrot = await _breedService.AddBreedAsync("Parrot", categoryBirdId);
+            var breedIdPigeon = await _breedService.AddBreedAsync("Pigeon", categoryBirdId);
 
-            await _breedService.DeleteBreedAsync(breedId);
+            var petId1 = await _petService.AddPetAsync("Pet1", 4f, categoryDogId, breedIdPoodle, locationIdPoland, "ImageURL", "Description");
+            var petId2 = await _petService.AddPetAsync("Pet2", 10f, categoryDogId, breedIdPoodle, locationIdUkraine, "ImageURL", "Description");
+            var petId3 = await _petService.AddPetAsync("Pet3", 4f, categoryCatId, breedIdBritishСat, locationIdUkraine, "ImageURL", "Description");
+            var petId4 = await _petService.AddPetAsync("Pet4", 14f, categoryDogId, breedIdShepherdDog, locationIdUkraine, "ImageURL", "Description");
+            var petId5 = await _petService.AddPetAsync("Pet5", 8f, categoryBirdId, breedIdParrot, locationIdPoland, "ImageURL", "Description");
+            var petId6 = await _petService.AddPetAsync("Pet6", 7f, categoryBirdId, breedIdPigeon, locationIdUkraine, "ImageURL", "Description");
+            var petId7 = await _petService.AddPetAsync("Pet7", 10f, categoryCatId, breedIdBengalCat, locationIdPoland, "ImageURL", "Description");
 
-            await _categoryService.DeleteCategoryAsync(categoryid);
 
-            await _locationService.DeleteLocationAsync(locationId);
+            var result = await _petService.SpecialRequestAsync();
 
-            await Console.Out.WriteLineAsync("Win!!!");
-
+            Console.ReadKey();
         }
     }
 }

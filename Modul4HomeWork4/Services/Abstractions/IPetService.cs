@@ -23,5 +23,6 @@ namespace Modul4HomeWork4.Services.Abstractions
             string imageUrl,
             string description);
         Task DeletePetAsync(int id);
+        Task<IReadOnlyList<SpecialModel>> SpecialRequestAsync();
     }
 }
